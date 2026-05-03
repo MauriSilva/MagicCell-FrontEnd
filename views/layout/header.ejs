@@ -62,35 +62,62 @@
 
     <!-- Botões à direita maiores -->
 <div class="flex items-center gap-4">
+  <span id="user-greeting" class="hidden text-sm text-[#00FF7F] font-semibold"></span>
+
   <button id="login-icon" class="cursor-pointer hover:text-[#00FF7F] transition-transform duration-300 hover:scale-125 flex items-center justify-center">
-    <img class="block" width="37" height="3" src="https://img.icons8.com/pastel-glyph/64/40C057/person-male--v3.png" alt="person"/>
+    <img class="block" width="37" height="37" src="https://img.icons8.com/pastel-glyph/64/40C057/person-male--v3.png" alt="person"/>
+  </button>
+
+  <button id="logout-btn" class="hidden text-sm text-red-400 hover:text-red-300 font-semibold">
+    Sair
   </button>
 
   <button class="cursor-pointer hover:text-[#00FF7F] transition-transform duration-300 hover:scale-125 flex items-center justify-center">
     <img class="block" width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/40C057/external-add-additional-heart-rate-reading-logotype-for-smartwatches-votes-bold-tal-revivo.png" alt="add"/>
   </button>
 
-  <!-- Carrinho -->
-<button id="cart-icon">
-  <img src="https://img.icons8.com/ios-glyphs/30/40C057/shopping-cart--v1.png" alt="Carrinho"/>
-</button>
-
-
+  <button id="cart-icon" class="cursor-pointer hover:text-[#00FF7F] transition-transform duration-300 hover:scale-125 flex items-center justify-center">
+    <img src="https://img.icons8.com/ios-glyphs/30/40C057/shopping-cart--v1.png" alt="Carrinho"/>
+  </button>
 </div>
 
 
     </div>
+
+<script src="/js/auth.js"></script>
 <script>
   const cartIcon = document.getElementById("cart-icon");
+  const login = document.getElementById("login-icon");
+  const logoutBtn = document.getElementById("logout-btn");
+  const userGreeting = document.getElementById("user-greeting");
+
+  const cliente = getCliente();
+
+  if (isLoggedIn()) {
+    login.classList.add("hidden");
+    logoutBtn.classList.remove("hidden");
+    userGreeting.classList.remove("hidden");
+    userGreeting.textContent = `Olá, ${cliente.nome?.split(" ")[0] || "cliente"}`;
+  }
+
   cartIcon.addEventListener("click", (e) => {
     e.preventDefault();
+
+    if (!isLoggedIn()) {
+      window.location.href = "/login";
+      return;
+    }
+
     window.location.href = "/carrinho";
   });
 
-  const login = document.getElementById("login-icon");
   login.addEventListener("click", (e) => {
     e.preventDefault();
     window.location.href = "/login";
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    logout();
   });
 </script>
 
