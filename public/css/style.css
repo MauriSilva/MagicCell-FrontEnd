@@ -1,0 +1,225 @@
+:root {
+  --primary-green: #00FF7F;
+  --secondary-white: #F3F4F6;
+  --background-dark: #0B0F1A;
+  --background-light: #ffffff;
+  --text-dark: #F3F4F6;
+  --text-light: #0B0F1A;
+}
+
+body.dark-theme {
+  background-color: var(--background-dark);
+  color: var(--secondary-white);
+}
+
+body.light-theme {
+  background-color: var(--background-light);
+  color: var(--text-light);
+}
+
+
+
+                                                    /* HEADER */
+
+
+/* Navbar base */
+#navbar {
+  background: transparent;
+}
+
+/* Navbar quando scrollado */
+.nav-scrolled {
+  background: rgba(11, 15, 26, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+}
+
+/* Links */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #7C3AED;
+}
+
+/* Linha animada no hover */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #7C3AED;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+                        /* CARROSEL DE IMAGENS */
+
+
+
+
+
+#themeToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #00FF7F; /* verde neon */
+  text-shadow: 0 0 10px #00FF7F;
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+#themeToggle:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 20px #00FF7F;
+}
+
+.logo-magic {
+  margin-top: 10%;
+  max-width: 180px;   /* tamanho padrão da logo */
+  height: auto;       /* mantém proporção */
+  transition: margin-left 0.3s ease, max-width 0.3s ease;
+}
+
+/* Ajuste específico para tema claro */
+body.light-theme .logo-magic {
+  margin-left: -58px; /* desloca um pouco para esquerda */
+  max-width: 180px;   /* reduz tamanho no tema claro */
+}
+
+#themeIcon {
+  filter: drop-shadow(0 0 8px #00FF7F); /* sombra verde neon */
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+#themeIcon:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 15px #00FF7F);
+}
+
+#themeshadowgreen {
+    filter: drop-shadow(0 0 8px #00FF7F); /* sombra verde neon */
+}
+
+
+.tech-line {
+  width: 100vw;              /* ocupa toda a largura da tela */
+  height: 4px;
+  background: #00FF7F;       /* linha verde contínua */
+  box-shadow: 0 0 15px #00FF7F, 0 0 30px #00FF7F;
+  position: relative;
+  overflow: hidden;
+  margin-left: calc(-50vw + 50%); /* garante que não fique presa ao container central */
+}
+
+.tech-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #00FF7F, transparent);
+  animation: move 2s linear infinite;
+}
+
+@keyframes move {
+  0%   { left: -30%; }
+  100% { left: 100%; }
+}
+
+
+.neon-text {
+  color: #00A859; /* verde principal */
+  text-shadow:
+    0 0 5px #004222,
+    0 0 10px #004d29,
+    0 0 20px #004d29,
+    0 0 40px #007a3d,
+    0 0 80px #002513;
+}
+
+
+.category-carousel {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 1rem; /* Espaçamento horizontal entre os ícones */
+  margin: 0rem 22%;
+  overflow-x: auto;
+  padding: 0 1rem;
+}
+
+.category-item {
+  text-align: center;
+  margin: 0;
+  flex: 0 0 auto; /* Impede que os itens se estiquem */
+}
+
+.category-icon {
+  width: 80px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 0 auto 0.5rem;
+}
+
+/* Ícones específicos */
+.smartphone-icon {
+  background-image: url('../images/cell.png');
+}
+.tablet-icon {
+  background-image: url('../images/perifericos.png');
+  transform: scale(1.3);
+}
+.FonesdeOuvido-icon {
+  background-image: url('../images/Fone.png');
+}
+.desktop-icon {
+  background-image: url('../images/Computadores.png');
+  transform: scale(0.8);
+}
+.Luminarias-icon {
+  background-image: url('../images/Luminarias.png');
+  transform: scale(1.4);
+}
+.accessories-icon {
+  background-image: url('../images/acessories.png');
+  transform: scale(1.4);
+}
+
+.category-label a {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+  padding: 0 1rem;
+}
+
+button:first-child img {
+  margin-top: -5px; /* sobe levemente o ícone de perfil */
+}
+
+/* .accessories-icon {
+  -webkit-mask: url('../images/Outros.png') no-repeat center;
+  mask: url('../images/Outros.png') no-repeat center;
+  background-color: #40C057; /* verde neon */
+ */
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif !important;
+}

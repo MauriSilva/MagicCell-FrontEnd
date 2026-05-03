@@ -1,0 +1,272 @@
+<nav class="">
+  <div class="flex items-center justify-between px-4 h-32">
+
+    <!-- Logo encostado à esquerda -->
+    <div class="flex-shrink-0">
+      <img id="logo" class="logo-magic" src="" alt="Logo Magic Cell" class="h-40 w-auto"/>
+    </div>
+
+    <!-- Barra de busca + botão de tema -->
+    <div class="flex items-center gap-4 mx-auto transition-all duration-300 w-80 focus-within:w-[32rem]">
+      
+      <!-- Barra de busca -->
+      <div class="relative flex-1 group">
+        <input id="searchInput" type="text" placeholder="Buscar..."
+          class="bg-transparent border border-[#00FF7F]/40 rounded-full pl-12 pr-12 py-3 text-base
+                 focus:outline-none transition-all duration-300 w-full"/>
+        
+        <!-- Ícone de busca -->
+        <span id="searchIcon" 
+          class="absolute left-3 top-1/2 -translate-y-1/2 text-[#00FF7F] text-xl cursor-pointer">
+        <img id="themeshadowgreen"src="/images/pesquisar.png" alt="Tema" class="w-8 h-8"/>
+        </span>
+        
+        <!-- Botão X -->
+        <button id="clearBtn" 
+          class="absolute right-4 top-1/2 -translate-y-1/2 text-[#fff] text-xl hidden cursor-pointer">
+          ✖
+        </button>
+      </div>
+
+      <!-- Botão de alternar tema -->
+      <button id="themeToggle" class="cursor-pointer">
+        <img id="themeIcon" src="/images/moon.png" alt="Tema" class="w-8 h-8"/>
+      </button>
+    </div>
+  
+
+
+
+
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+
+  searchInput.addEventListener('input', () => {
+    if (searchInput.value.trim().length > 0) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+  });
+
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    clearBtn.classList.add('hidden');
+    searchInput.focus();
+  });
+</script>
+
+
+
+    <!-- Botões à direita maiores -->
+<div class="flex items-center gap-4">
+  <button id="login-icon" class="cursor-pointer hover:text-[#00FF7F] transition-transform duration-300 hover:scale-125 flex items-center justify-center">
+    <img class="block" width="37" height="3" src="https://img.icons8.com/pastel-glyph/64/40C057/person-male--v3.png" alt="person"/>
+  </button>
+
+  <button class="cursor-pointer hover:text-[#00FF7F] transition-transform duration-300 hover:scale-125 flex items-center justify-center">
+    <img class="block" width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/40C057/external-add-additional-heart-rate-reading-logotype-for-smartwatches-votes-bold-tal-revivo.png" alt="add"/>
+  </button>
+
+  <!-- Carrinho -->
+<button id="cart-icon">
+  <img src="https://img.icons8.com/ios-glyphs/30/40C057/shopping-cart--v1.png" alt="Carrinho"/>
+</button>
+
+
+</div>
+
+
+    </div>
+<script>
+  const cartIcon = document.getElementById("cart-icon");
+  cartIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "/carrinho";
+  });
+
+  const login = document.getElementById("login-icon");
+  login.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "/login";
+  });
+</script>
+
+
+
+
+    <!-- Botão hamburguer (mobile) -->
+    <button id="toggle" class="md:hidden text-[#00FF7F] text-3xl">
+      <img src="/images/menu.png" class="h-6"/>
+    </button>
+  </div>
+</nav>
+
+
+
+<script>
+  const icon = document.getElementById('searchIcon');
+  const input = document.getElementById('searchInput');
+
+  icon.addEventListener('click', () => {
+    input.focus();
+    input.classList.add('w-80');
+  });
+</script>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+<!-- Menu mobile -->
+<div id="mobileMenu" 
+     class="fixed top-0 right-0 h-full w-[80%] 
+            flex flex-col items-start gap-8 px-8 py-10
+            bg-black/30 backdrop-blur-md 
+            border-l border-white/10 rounded-l-xl
+            shadow-lg shadow-purple-900/40
+            transform translate-x-full transition-transform duration-500 ease-out 
+            md:hidden z-50">
+
+  <a href="#shows" class="text-lg text-white font-semibold hover:text-[#7C3AED] transition flex items-center  gap-2 text-white no-underline">
+    <img src="/images/cartola.png" class="h-9 w-9 object-contain scale-125" alt="Ícone de Contato" /><span>Shows & Apresentações</span></a>
+
+  <a href="#aprenda" class="text-lg text-white font-semibold hover:text-[#7C3AED] transition flex items-center  gap-2 text-white no-underline">
+    <img src="/images/estrela.png" class="h-9 w-9 object-contain scale-100" alt="Ícone de Contato" /><span>Aprenda Mágica</span>
+  </a>
+
+  <a href="#galeria" class="text-lg text-white font-semibold hover:text-[#7C3AED] transition flex items-center  gap-2 text-white no-underline">
+    <img src="/images/grimorio.png" class="h-9 w-9 object-contain scale-100" alt="Ícone de Contato" /><span>Galeria Encantada</span>
+  </a>
+
+  <a href="#produtos" class="text-lg text-white font-semibold hover:text-[#7C3AED] transition flex items-center  gap-2 text-white no-underline">
+    <img src="/images/cartas.png" class="h-9 w-9 object-contain scale-125" alt="Ícone de Contato" /><span>Produtos</span>
+  </a>
+
+  <a href="#sobre" class="text-lg text-white font-semibold hover:text-[#7C3AED] transition flex items-center  gap-2 text-white no-underline">
+    <img src="/images/pergaminho.png" class="h-9 w-9 object-contain scale-100" alt="Ícone de Contato" /> <span>Sobre</span></a>
+
+  <a href="#contato" class="text-lg text-white font-semibold hover:text-[#7C3AED] transition flex items-center  gap-2 text-white no-underline">
+   <img src="/images/homemcartola.png" class="h-9 w-9 object-contain scale-100" alt="Ícone de Contato" /> <span>Contato</span></a>
+</div>
+
+<svg class="w-screen h-6" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <defs>
+    <!-- Filtro neon mais intenso -->
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Caminho único com vários picos -->
+  <path d="M0,22 
+           L50,2 L40,18 L70,2 L70,10 L110,10 
+           L130,2 L150,18 L140,2 L190,18 L180,10
+           L1120,18 L1125,2 L1130,23
+          L1140,2 L1145,18 L1160,4
+         L1170,18 
+          L1210,18
+         L1220,10 L1225,2
+         L1235,22 L1231,2 
+         L1245,23 L1245,10
+         L1249,22 L1258,10
+         L1270,21 L1280,10
+         L2000,5"
+        fill="none"
+        stroke="#00FF7F"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        filter="url(#neonGlow)"
+        stroke-dasharray="2000"
+        stroke-dashoffset="2000">
+    <animate attributeName="stroke-dashoffset" from="2000" to="-2000" dur="8s" repeatCount="indefinite"/>
+  </path>
+</svg>
+
+
+
+
+
+
+
+
+<!-- Overlay escuro -->
+<div id="overlay" class="hidden fixed inset-0 bg-black/50 md:hidden z-40"></div>
+
+<script>
+  const toggle = document.getElementById("toggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const overlay = document.getElementById("overlay");
+
+  toggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("translate-x-full");
+    overlay.classList.toggle("hidden");
+  });
+
+  overlay.addEventListener("click", () => {
+    mobileMenu.classList.add("translate-x-full");
+    overlay.classList.add("hidden");
+  });
+
+
+  const toggleBtn = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const logo = document.getElementById('logo');
+  const body = document.body;
+
+  // Tema inicial
+  body.classList.add('dark-theme');
+  themeIcon.src = "/images/moon.png";
+  logo.src = "/images/LogoAtualizada.png";
+
+
+toggleBtn.addEventListener('click', () => {
+  if (body.classList.contains('dark-theme')) {
+    body.classList.remove('dark-theme');
+    body.classList.add('light-theme');
+    themeIcon.src = "/images/sun.png"; // ícone sol
+    logo.src = "/images/LogoAtualizada.png"; // logo versão clara
+  } else {
+    body.classList.remove('light-theme');
+    body.classList.add('dark-theme');
+    themeIcon.src = "/images/moon.png"; // ícone lua
+    logo.src = "/images/LogoAtualizada.png"; // logo versão escura
+  }
+});
+
+</script>
+
+<style>
+  /* Tema escuro: ícones ficam claros */
+.dark-theme #themeIcon,
+.dark-theme #themeshadowgreen {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(200%);
+}
+
+/* Tema claro: ícones mantêm cor original */
+.light-theme #themeIcon,
+.light-theme #themeshadowgreen {
+  filter: none;
+}
+
+</style>
+
+
+
+
