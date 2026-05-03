@@ -1,7 +1,8 @@
 const express = require('express');
-const axios = require('axios');
+const api = require('./config/api');
 const app = express();
 const path = require('path');
+const API_URL = process.env.API_URL;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -11,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', async (req, res) => {
   try {
 
-    const response = await axios.get('http://localhost:3000/produtos');
+   const response = await api.get('/produtos');
 
     const produtos = response.data;
 
