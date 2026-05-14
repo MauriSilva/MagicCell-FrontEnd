@@ -165,6 +165,37 @@
     }
   }
 
+  function pesquisarProdutos(termo) {
+  const busca = termo.toLowerCase().trim();
+
+  if (!busca) {
+    renderizarProdutos(produtosGlobais);
+    return;
+  }
+
+  const resultados = produtosGlobais.filter(produto => {
+    const nome = produto.nome?.toLowerCase() || "";
+    const descricao = produto.descricao?.toLowerCase() || "";
+    const tipo = produto.tipo?.toLowerCase() || "";
+
+    return (
+      nome.includes(busca) ||
+      descricao.includes(busca) ||
+      tipo.includes(busca)
+    );
+  });
+
+  renderizarProdutos(resultados);
+}
+
+  const buscaProdutos = document.getElementById("searchInput");
+
+if (buscaProdutos) {
+  searchInput.addEventListener("input", () => {
+    pesquisarProdutos(buscaProdutos.value);
+  });
+}
+
   carregarProdutos();
 </script>
 
