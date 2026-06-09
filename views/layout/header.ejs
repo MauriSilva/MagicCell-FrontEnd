@@ -3,7 +3,7 @@
 
     <!-- Logo encostado à esquerda -->
     <div class="flex-shrink-0">
-      <img id="logo" class="logo-magic" src="" alt="Logo Magic Cell" class="h-40 w-auto"/>
+      <a href="/"><img id="logo" class="logo-magic" src="" alt="Logo Magic Cell" class="h-40 w-auto"/></a> 
     </div>
 
     <!-- Barra de busca + botão de tema -->
@@ -11,9 +11,22 @@
       
       <!-- Barra de busca -->
       <div class="relative flex-1 group">
-        <input id="searchInput" type="text" placeholder="Buscar..."
-          class="bg-transparent border border-[#00FF7F]/40 rounded-full pl-12 pr-12 py-3 text-base
-                 focus:outline-none transition-all duration-300 w-full"/>
+        <input
+  id="searchInput"
+  type="text"
+  placeholder="Buscar..."
+  class="
+    bg-transparent
+    border border-[#00FF7F]/40
+    rounded-full
+    pl-12 pr-12 py-3
+    text-base
+    focus:outline-none
+    transition-all duration-300
+    w-full
+    focus:w-[32rem]
+  "
+/>
         
         <!-- Ícone de busca -->
         <span id="searchIcon" 
@@ -68,6 +81,11 @@
     <img class="block" width="37" height="37" src="https://img.icons8.com/pastel-glyph/64/40C057/person-male--v3.png" alt="person"/>
   </button>
 
+  <button id="orders-btn"
+    class="hidden text-[#00FF7F] hover:text-red-300 font-semibold">
+     Meus pedidos
+  </button>
+
   <button id="logout-btn" class="hidden text-sm text-red-400 hover:text-red-300 font-semibold">
     Sair
   </button>
@@ -90,6 +108,8 @@
   const login = document.getElementById("login-icon");
   const logoutBtn = document.getElementById("logout-btn");
   const userGreeting = document.getElementById("user-greeting");
+  const ordersBtn = document.getElementById("orders-btn");
+
 
   const cliente = getCliente();
 
@@ -97,8 +117,14 @@
     login.classList.add("hidden");
     logoutBtn.classList.remove("hidden");
     userGreeting.classList.remove("hidden");
+    ordersBtn.classList.remove("hidden");
     userGreeting.textContent = `Olá, ${cliente.nome?.split(" ")[0] || "cliente"}`;
   }
+
+  ordersBtn.addEventListener("click", () => {
+  window.location.href = "/meus-pedidos";
+  });
+
 
   cartIcon.addEventListener("click", (e) => {
     e.preventDefault();
@@ -139,7 +165,6 @@
 
   icon.addEventListener('click', () => {
     input.focus();
-    input.classList.add('w-80');
   });
 </script>
 

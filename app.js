@@ -40,6 +40,11 @@ app.get('/cadastro', (req, res) => {
   res.render('cadastro');
 });
 
+//rota de pedidos
+app.get('/meus-pedidos', (req, res) => {
+  res.render('meuspedidos');
+});
+
 app.listen(3001, () => {
     console.log('Servidor rodando em http://localhost:3001');
 });

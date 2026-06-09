@@ -19,7 +19,7 @@ body.light-theme {
 
 
 
-                                                    /* HEADER */
+/* HEADER */
 
 
 /* Navbar base */
@@ -89,7 +89,6 @@ body.light-theme {
 
 /* Ajuste específico para tema claro */
 body.light-theme .logo-magic {
-  margin-left: -58px; /* desloca um pouco para esquerda */
   max-width: 180px;   /* reduz tamanho no tema claro */
 }
 

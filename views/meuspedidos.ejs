@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<%- include('layout/head') %>
+
+<body class="bg-[#0B0F1A] text-white min-h-screen overflow-x-hidden">
+
+  <%- include('layout/header') %>
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+
+    <div class="mb-10">
+      <h1 class="text-4xl font-bold text-[#00FF7F] mb-2">
+        Meus Pedidos
+      </h1>
+
+      <p class="text-gray-400">
+        Acompanhe seus pedidos e consulte os detalhes das suas compras.
+      </p>
+    </div>
+
+    <div id="pedidos-container" class="space-y-6">
+
+      <div class="bg-[#111827] border border-[#00FF7F]/20 rounded-xl p-6">
+        <p class="text-gray-400">
+          Carregando pedidos...
+        </p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="/js/apiConfig.js"></script>
+  <script src="/js/auth.js"></script>
+
+  <script>
+
+    const container = document.getElementById("pedidos-container");
+
+    function formatarPreco(valor) {
+      return Number(valor).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    function formatarData(data) {
+      return new Date(data).toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function corStatus(status) {
+
+      switch (status.toLowerCase()) {
+
+        case "pendente":
+          return "bg-yellow-500/20 text-yellow-400";
+
+        case "pago":
+          return "bg-green-500/20 text-green-400";
+
+        case "cancelado":
+          return "bg-red-500/20 text-red-400";
+
+        default:
+          return "bg-gray-500/20 text-gray-400";
+      }
+    }
+
+    async function carregarPedidos() {
+
+      const token = getToken();
+
+      if (!token) {
+        window.location.href = "/login";
+        return;
+      }
+
+      try {
+
+        const response = await fetch(`${API_URL}/pedidos`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const pedidos = await response.json();
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
+        renderizarPedidos(pedidos);
+
+      } catch (error) {
+
+        container.innerHTML = `
+          <div class="bg-[#111827] border border-red-500/30 rounded-xl p-6">
+            <p class="text-red-400">
+              Erro ao carregar pedidos.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    function renderizarPedidos(pedidos) {
+
+      if (!pedidos.length) {
+
+        container.innerHTML = `
+          <div class="bg-[#111827] border border-[#00FF7F]/20 rounded-xl p-8 text-center">
+            <h2 class="text-xl font-semibold mb-2">
+              Nenhum pedido encontrado
+            </h2>
+
+            <p class="text-gray-400">
+              Você ainda não realizou nenhuma compra.
+            </p>
+          </div>
+        `;
+
+        return;
+      }
+
+      container.innerHTML = pedidos.map(pedido => `
+
+        <div class="bg-[#111827] border border-[#00FF7F]/20 rounded-xl p-6 shadow-lg">
+
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+
+            <div>
+
+              <h2 class="text-xl font-bold text-[#00FF7F]">
+                Pedido #${String(pedido.id_pedido).padStart(6, '0')}
+              </h2>
+
+              <p class="text-gray-400 text-sm mt-1">
+                Realizado em ${formatarData(pedido.criado_em)}
+              </p>
+
+            </div>
+
+            <div class="flex flex-col md:items-end gap-2">
+
+              <span class="
+                px-4 py-2 rounded-full text-sm font-semibold
+                ${corStatus(pedido.status)}
+              ">
+                ${pedido.status.toUpperCase()}
+              </span>
+
+              <span class="text-xl font-bold text-[#00FF7F]">
+                ${formatarPreco(pedido.total)}
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="mt-6">
+
+            <button
+              onclick="verDetalhes(${pedido.id_pedido})"
+              class="
+                bg-[#00FF7F]
+                text-black
+                font-bold
+                px-5
+                py-2
+                rounded-lg
+                hover:scale-105
+                transition
+              "
+            >
+              Ver detalhes
+            </button>
+
+          </div>
+
+          <div
+            id="detalhes-${pedido.id_pedido}"
+            class="hidden mt-6 border-t border-gray-700 pt-6 overflow-hidden"
+            >
+          </div>
+
+        </div>
+
+      `).join('');
+    }
+
+    async function verDetalhes(idPedido) {
+
+      const detalhesDiv =
+        document.getElementById(`detalhes-${idPedido}`);
+
+      if (!detalhesDiv.classList.contains("hidden")) {
+
+        detalhesDiv.classList.add("hidden");
+        return;
+      }
+
+      detalhesDiv.classList.remove("hidden");
+
+      detalhesDiv.innerHTML = `
+        <p class="text-gray-400">
+          Carregando itens...
+        </p>
+      `;
+
+      try {
+
+        const response = await fetch(
+          `${API_URL}/pedidos/${idPedido}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getToken()}`
+            }
+          }
+        );
+
+        const itens = await response.json();
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
+        detalhesDiv.innerHTML = `
+
+          <h3 class="font-bold text-lg text-[#00FF7F] mb-4">
+            Itens do Pedido
+          </h3>
+
+          <div class="space-y-4">
+
+            ${itens.map(item => `
+
+              <div class="
+                flex
+                flex-col
+                md:flex-row
+                md:justify-between
+                md:items-center
+                gap-3
+                bg-[#0B0F1A]
+                border
+                border-gray-700
+                rounded-lg
+                p-4
+                ">
+
+                <div>
+
+                  <p class="font-semibold break-words">
+                    ${item.nome}
+                  </p>
+
+                  <p class="text-sm text-gray-400">
+                    Quantidade: ${item.quantidade}
+                  </p>
+
+                </div>
+
+                <div class="text-right">
+
+                  <p class="text-[#00FF7F] font-bold">
+                    ${formatarPreco(item.preco_unitario)}
+                  </p>
+
+                </div>
+
+              </div>
+
+            `).join('')}
+
+          </div>
+
+        `;
+
+      } catch (error) {
+
+        detalhesDiv.innerHTML = `
+          <p class="text-red-400">
+            Erro ao carregar detalhes do pedido.
+          </p>
+        `;
+      }
+    }
+
+    carregarPedidos();
+
+  </script>
+
+</body>
+
+</html>
