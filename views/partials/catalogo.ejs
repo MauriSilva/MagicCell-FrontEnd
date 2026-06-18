@@ -86,6 +86,10 @@
     renderizarProdutos(filtrados);
   }
 
+  function abrirProduto(id) {
+  window.location.href = `/produtos/${id}`;
+}
+
   function renderizarProdutos(produtos) {
     if (!produtos || produtos.length === 0) {
       container.innerHTML = "<p class='text-white'>Nenhum produto encontrado.</p>";
@@ -93,7 +97,8 @@
     }
 
     container.innerHTML = produtos.map(produto => `
-      <div class="border rounded-lg shadow-md p-4 bg-white text-gray-900 flex flex-col 
+      <div onclick="abrirProduto(${produto.id_produto})"
+      class="produto-card cursor-pointer border rounded-lg shadow-md p-4 bg-white text-gray-900 flex flex-col 
                 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
 
         <img

@@ -25,6 +25,17 @@ app.get('/', async (req, res) => {
   }
 });
 
+//rota de produtos
+app.get('/produtos/:id', (req, res) => {
+
+  const { id } = req.params;
+
+  res.render('produto', {
+    idProduto: id
+  });
+
+});
+
 // rota do carrinho
 app.get('/carrinho', (req, res) => {
   res.render('partials/carrinho'); // views/partials/carrinho.ejs
@@ -44,6 +55,32 @@ app.get('/cadastro', (req, res) => {
 app.get('/meus-pedidos', (req, res) => {
   res.render('meuspedidos');
 });
+
+
+
+
+
+//rotas de admin
+app.get('/admin', (req, res) => {
+  res.render('admin/dashboard');
+});
+
+app.get('/admin/produtos', (req, res) => {
+  res.render('admin/produtos');
+});
+
+app.get('/admin/pedidos', (req, res) => {
+  res.render('admin/pedidos');
+});
+
+app.get('/admin/clientes', (req, res) => {
+  res.render('admin/clientes');
+});
+
+
+
+
+
 
 app.listen(3001, () => {
     console.log('Servidor rodando em http://localhost:3001');

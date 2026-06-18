@@ -7,6 +7,11 @@ function getCliente() {
   return cliente ? JSON.parse(cliente) : null;
 }
 
+function isAdmin() {
+  const cliente = getCliente();
+  return cliente?.role === "admin";
+}
+
 function isLoggedIn() {
   return !!getToken() && !!getCliente();
 }

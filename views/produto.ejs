@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<%- include('layout/head') %>
+
+<body class="bg-[#0B0F1A] text-white min-h-screen">
+
+  <%- include('layout/header') %>
+
+  <main
+    id="produto-container"
+    class="max-w-7xl mx-auto px-6 py-12"
+  >
+
+    <div class="text-gray-400">
+      Carregando produto...
+    </div>
+
+  </main>
+
+  <script src="/js/apiConfig.js"></script>
+
+  <script>
+
+    const idProduto = "<%= idProduto %>";
+    console.log("ID recebido:", idProduto);
+
+    const container =
+      document.getElementById("produto-container");
+
+    
+    async function carregarProduto() {
+
+  try {
+
+    const response = await fetch(
+      `${API_URL}/produtos/${idProduto}`
+    );
+
+    const responseData = await response.json();
+
+    renderizarProduto(responseData.data);
+
+   
+
+  } catch (error) {
+
+    container.innerHTML = `
+      <div class="text-red-400">
+        Produto não encontrado.
+      </div>
+    `;
+  }
+
+}
+
+carregarProduto();
+
+
+
+function renderizarProduto(produto) {
+
+  container.innerHTML = `
+
+    <div
+      class="
+        grid
+        lg:grid-cols-2
+        gap-12
+        items-start
+      "
+    >
+
+      <div>
+
+        <img
+          src="${produto.imagem_url}"
+          alt="${produto.nome}"
+          class="
+            w-full
+            rounded-2xl
+            border
+            border-[#00FF7F]/20
+          "
+        >
+
+      </div>
+
+      <div>
+
+        <h1
+          class="
+            text-4xl
+            font-bold
+            text-[#00FF7F]
+            mb-4
+          "
+        >
+          ${produto.nome}
+        </h1>
+
+        <p
+          class="
+            text-3xl
+            font-bold
+            mb-6
+          "
+        >
+          R$ ${Number(produto.preco)
+            .toLocaleString('pt-BR',{
+              minimumFractionDigits:2
+            })}
+        </p>
+
+        <p
+          class="
+            text-gray-300
+            leading-relaxed
+            mb-8
+          "
+        >
+          ${produto.descricao}
+        </p>
+
+        <div
+          class="
+            bg-[#111827]
+            rounded-xl
+            p-6
+            border
+            border-[#00FF7F]/20
+          "
+        >
+
+          <p class="mb-3">
+
+            Estoque:
+
+            <span class="text-[#00FF7F]">
+
+              ${produto.estoque}
+
+            </span>
+
+          </p>
+
+          <button
+            onclick="adicionarCarrinho(${produto.id_produto})"
+            class="
+              bg-[#00FF7F]
+              text-black
+              font-bold
+              px-8
+              py-3
+              rounded-xl
+              hover:scale-105
+              transition
+            "
+          >
+            Adicionar ao carrinho
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+async function adicionarCarrinho(idProduto) {
+    const token = getToken();
+
+    if (!token) {
+      mostrarMensagemCarrinho(
+      "Faça login para adicionar ao carrinho!",
+      false
+    );
+      //window.location.href = "/login";
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/carrinho`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+          id_produto: idProduto,
+          quantidade: 1
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+      throw new Error(resultado.message || "Erro ao adicionar produto");
+    }
+
+      mostrarMensagemCarrinho(
+      "Produto adicionado ao carrinho!",
+      true
+    );
+
+
+    } catch (error) {
+      mostrarMensagemCarrinho(
+      error.message || "Erro ao adicionar produto.",
+      false
+    );
+    }
+  }
+
+  function mostrarMensagemCarrinho(mensagem, sucesso) {
+
+  const toast = document.createElement("div");
+
+  toast.className = `
+    fixed
+    top-6
+    right-6
+    z-50
+    px-6
+    py-4
+    rounded-xl
+    shadow-lg
+    font-semibold
+    transition-all
+  `;
+
+  if (sucesso) {
+  toast.classList.add("bg-[#00FF7F]", "text-black");
+} else {
+  toast.classList.add("bg-red-500", "text-white");
+}
+
+  toast.textContent = mensagem;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
+
+  </script>
+
+</body>
+</html>

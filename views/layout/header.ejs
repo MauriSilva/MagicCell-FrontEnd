@@ -97,6 +97,19 @@
   <button id="cart-icon" class="cursor-pointer hover:text-[#00FF7F] transition-transform duration-300 hover:scale-125 flex items-center justify-center">
     <img src="https://img.icons8.com/ios-glyphs/30/40C057/shopping-cart--v1.png" alt="Carrinho"/>
   </button>
+
+  <a
+  href="/admin"
+  id="admin-btn"
+  class="
+    hidden
+    text-[#00FF7F]
+    hover:underline
+  "
+>
+  Admin
+</a>
+
 </div>
 
 
@@ -109,7 +122,13 @@
   const logoutBtn = document.getElementById("logout-btn");
   const userGreeting = document.getElementById("user-greeting");
   const ordersBtn = document.getElementById("orders-btn");
+  const adminBtn = document.getElementById("admin-btn");
 
+  if (!isAdmin()) {
+
+  adminBtn.classList.add("hidden");
+
+}
 
   const cliente = getCliente();
 
@@ -119,6 +138,9 @@
     userGreeting.classList.remove("hidden");
     ordersBtn.classList.remove("hidden");
     userGreeting.textContent = `Olá, ${cliente.nome?.split(" ")[0] || "cliente"}`;
+    if (isAdmin()) {
+  adminBtn.classList.remove("hidden");
+    }
   }
 
   ordersBtn.addEventListener("click", () => {

@@ -1,0 +1,87 @@
+
+<script src="/js/auth.js"></script>
+
+<script>
+
+  if (!isAdmin()) {
+
+    window.location.href = "/";
+
+  }
+
+</script>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<%- include('../layout/head') %>
+
+<body class="bg-[#0B0F1A] text-white min-h-screen overflow-x-hidden">
+
+<%- include('../layout/header') %>
+
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+    <h1 class="text-4xl font-bold text-[#00FF7F] mb-10">
+        Painel Administrativo
+    </h1>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <a href="/admin/produtos"
+           class="bg-[#111827] p-8 rounded-xl border border-[#00FF7F]/20 hover:border-[#00FF7F] transition">
+
+            <h2 class="text-2xl font-bold text-[#00FF7F]">
+                Produtos
+            </h2>
+
+            <p class="text-gray-400 mt-2">
+                Gerenciar catálogo
+            </p>
+
+        </a>
+
+        <a href="/admin/pedidos"
+           class="bg-[#111827] p-8 rounded-xl border border-[#00FF7F]/20 hover:border-[#00FF7F] transition">
+
+            <h2 class="text-2xl font-bold text-[#00FF7F]">
+                Pedidos
+            </h2>
+
+            <p class="text-gray-400 mt-2">
+                Gerenciar pedidos
+            </p>
+
+        </a>
+
+        <a href="/admin/clientes"
+           class="bg-[#111827] p-8 rounded-xl border border-[#00FF7F]/20 hover:border-[#00FF7F] transition">
+
+            <h2 class="text-2xl font-bold text-[#00FF7F]">
+                Clientes
+            </h2>
+
+            <p class="text-gray-400 mt-2">
+                Visualizar clientes
+            </p>
+
+        </a>
+
+    </div>
+
+</main>
+
+<script src="/js/auth.js"></script>
+
+<script>
+
+    const cliente = getCliente();
+
+    if (!cliente) {
+        window.location.href = "/";
+    }
+
+</script>
+
+</body>
+</html>
