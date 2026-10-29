@@ -36,6 +36,10 @@
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
   ></div>
 
+  <div
+  id="paginacao-produtos"
+  class="flex justify-center items-center gap-2 flex-wrap mt-8 mb-6"
+></div>
 </section>
 
 <script>
@@ -55,23 +59,107 @@
     return localStorage.getItem("token");
   }
 
-  async function carregarProdutos() {
-    try {
-      const response = await fetch(`${API_URL}/produtos`);
-      const produtos = await response.json();
+let paginaAtual = 1;
+let totalPaginas = 0;
+const produtosPorPagina = 12;
 
-      if (!response.ok) {
-        container.innerHTML = "<p class='text-white'>Erro ao carregar produtos.</p>";
-        return;
-      }
+async function carregarProdutos(pagina = 1) {
+  try {
+    container.innerHTML =
+      "<p class='text-white'>Carregando produtos...</p>";
 
-      produtosGlobais = produtos;
-      renderizarProdutos(produtosGlobais);
+    const response = await fetch(
+      `${API_URL}/produtos?page=${pagina}&limit=${produtosPorPagina}`
+    );
 
-    } catch (error) {
-      container.innerHTML = "<p class='text-white'>Erro ao conectar com a API.</p>";
+    const resultado = await response.json();
+
+    if (!response.ok) {
+      container.innerHTML =
+        "<p class='text-white'>Erro ao carregar produtos.</p>";
+
+      document.getElementById("paginacao-produtos").innerHTML = "";
+      return;
     }
+
+    // Atualiza os dados da paginação
+    paginaAtual = resultado.pagination.currentPage;
+    totalPaginas = resultado.pagination.totalPages;
+
+    // Mantém somente os produtos da página atual
+    produtosGlobais = resultado.data;
+
+    renderizarProdutos(produtosGlobais);
+    renderizarPaginacao();
+
+  } catch (error) {
+    console.error("Erro ao carregar produtos:", error);
+
+    container.innerHTML =
+      "<p class='text-white'>Erro ao conectar com a API.</p>";
+
+    document.getElementById("paginacao-produtos").innerHTML = "";
   }
+}
+
+function renderizarPaginacao() {
+  const paginacao = document.getElementById("paginacao-produtos");
+
+  if (!paginacao) return;
+
+  if (totalPaginas <= 1) {
+    paginacao.innerHTML = "";
+    return;
+  }
+
+  let botoes = "";
+
+  // Botão anterior
+  botoes += `
+    <button
+      onclick="carregarProdutos(${paginaAtual - 1})"
+      ${paginaAtual === 1 ? "disabled" : ""}
+      class="px-3 py-2 rounded border border-gray-600
+             text-white hover:bg-gray-700
+             disabled:opacity-40 disabled:cursor-not-allowed"
+      aria-label="Página anterior"
+    >
+      &laquo;
+    </button>
+  `;
+
+  // Números das páginas
+  for (let pagina = 1; pagina <= totalPaginas; pagina++) {
+    botoes += `
+      <button
+        onclick="carregarProdutos(${pagina})"
+        ${pagina === paginaAtual ? 'aria-current="page"' : ""}
+        class="px-4 py-2 rounded font-bold
+               ${pagina === paginaAtual
+                 ? "bg-green-500 text-black"
+                 : "bg-gray-800 text-white hover:bg-gray-700"}"
+      >
+        ${pagina}
+      </button>
+    `;
+  }
+
+  // Botão próximo
+  botoes += `
+    <button
+      onclick="carregarProdutos(${paginaAtual + 1})"
+      ${paginaAtual === totalPaginas ? "disabled" : ""}
+      class="px-3 py-2 rounded border border-gray-600
+             text-white hover:bg-gray-700
+             disabled:opacity-40 disabled:cursor-not-allowed"
+      aria-label="Próxima página"
+    >
+      &raquo;
+    </button>
+  `;
+
+  paginacao.innerHTML = botoes;
+}
 
   function filtrarProdutos(tipo) {
     if (tipo === "todos") {

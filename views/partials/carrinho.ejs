@@ -38,9 +38,9 @@
       const mensagem = document.getElementById('mensagem');
       const btnFinalizar = document.getElementById('btn-finalizar');
 
-      function getToken() {
-        return localStorage.getItem('token');
-      }
+      // function getToken() {
+      //   return localStorage.getItem('token');
+      // }
 
       function formatarPreco(valor) {
         return Number(valor).toLocaleString('pt-BR', {
@@ -50,7 +50,7 @@
       }
 
       async function carregarCarrinho() {
-        const token = getToken();
+        // const token = getToken();
 
         if (!token) {
           mensagem.textContent = 'Você precisa fazer login para ver o carrinho.';
@@ -71,6 +71,8 @@
               Authorization: `Bearer ${token}`
             }
           });
+
+          
 
           const data = await response.json();
 

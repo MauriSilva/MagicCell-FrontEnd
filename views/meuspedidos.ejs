@@ -88,6 +88,10 @@
           }
         });
 
+        if (!verificarSessao(response)) {
+        return;
+        }
+
         const pedidos = await response.json();
 
         if (!response.ok) {

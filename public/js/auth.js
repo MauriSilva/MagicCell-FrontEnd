@@ -16,11 +16,32 @@ function isLoggedIn() {
   return !!getToken() && !!getCliente();
 }
 
-function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('cliente');
-  window.location.href = '/';
+function logout(mensagem = null) {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("cliente");
+
+    if (mensagem) {
+        alert(mensagem);
+    }
+
+    window.location.href = "/login";
 }
+
+function verificarSessao(response) {
+
+    if (response.status === 401 || response.status === 403) {
+
+        logout(
+            "Sua sessão expirou. Faça login novamente."
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
 
 function requireAuth() {
   if (!isLoggedIn()) {
